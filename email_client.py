@@ -9,7 +9,7 @@ This module provides:
 """
 
 import logging
-from typing import Protocol
+from typing import Optional, Protocol
 from urllib.parse import parse_qs, urlparse
 
 from config import EmailContent, EmailPlatform
