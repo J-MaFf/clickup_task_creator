@@ -189,7 +189,7 @@ Implementation details:
 
 ## 📊 Data Flow
 
-```
+```text
 User Input (Email URL)
         ↓
 [Email Client] → Extract email content

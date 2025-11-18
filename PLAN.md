@@ -65,7 +65,7 @@ The ClickUp Task Creator is a Python application that enables efficient task cre
 
 ### Directory Structure
 
-```
+```yaml
 clickup_task_creator/
 ├── main.py                    # CLI entry point, venv handoff, config assembly
 ├── config.py                  # Config dataclass, enums, constants, email platform defs
@@ -213,7 +213,7 @@ clickup_task_creator/
 
 ## Data Flow
 
-```
+```text
 User Input (Email URL)
         ↓
 [Email Client] → Extract email content
@@ -328,7 +328,7 @@ CUSTOM_FIELD_MAPPINGS = {
 
 ### AI Analysis Prompt
 
-```
+```text
 Analyze this email and extract:
 1. A concise task title (5-10 words)
 2. Task description (1-2 sentences)
