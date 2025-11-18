@@ -16,7 +16,13 @@ from urllib.parse import urljoin
 
 import requests
 
-from config import CLICKUP_API_BASE_URL, API_TIMEOUT
+from config import (
+    API_TIMEOUT,
+    CLICKUP_API_BASE_URL,
+    DEFAULT_RETRY_AFTER,
+    EXPONENTIAL_BACKOFF_BASE,
+    MAX_RETRIES,
+)
 
 logger = logging.getLogger("clickup_task_creator")
 
@@ -59,7 +65,7 @@ class ClickUpAPIClient:
         endpoint: str,
         data: Optional[dict] = None,
         params: Optional[dict] = None,
-        retries: int = 3
+        retries: int = MAX_RETRIES
     ) -> Any:
         """Make HTTP request with retry logic.
         
@@ -93,7 +99,7 @@ class ClickUpAPIClient:
                 
                 # Handle rate limiting
                 if response.status_code == 429:
-                    retry_after = int(response.headers.get("Retry-After", 60))
+                    retry_after = int(response.headers.get("Retry-After", DEFAULT_RETRY_AFTER))
                     logger.warning(f"Rate limit exceeded, retrying after {retry_after}s")
                     
                     if attempt < retries - 1:
@@ -109,14 +115,14 @@ class ClickUpAPIClient:
             except requests.exceptions.Timeout:
                 logger.warning(f"Request timeout (attempt {attempt + 1}/{retries})")
                 if attempt < retries - 1:
-                    time.sleep(2 ** attempt)  # Exponential backoff
+                    time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)  # Exponential backoff
                     continue
                 raise APIError(f"Request timeout after {retries} attempts")
             
             except requests.exceptions.RequestException as e:
                 logger.error(f"Request failed: {e}")
                 if attempt < retries - 1 and response.status_code >= 500:
-                    time.sleep(2 ** attempt)
+                    time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)
                     continue
                 raise APIError(f"API request failed: {e}")
         

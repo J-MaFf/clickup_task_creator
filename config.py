@@ -74,7 +74,24 @@ class ClickUpTaskConfig:
 
 # API Configuration
 CLICKUP_API_BASE_URL = "https://api.clickup.com/api/v2"
+
+# API Endpoint Constants
+API_ENDPOINT_TEAMS = "/team"
+API_ENDPOINT_SPACES = "/team/{team_id}/space"
+API_ENDPOINT_LISTS = "/space/{space_id}/list"
+API_ENDPOINT_FIELDS = "/list/{list_id}/field"
+API_ENDPOINT_TASKS = "/list/{list_id}/task"
+API_ENDPOINT_TASK = "/task/{task_id}"
+
+# Timeout and Retry Constants
 API_TIMEOUT = 30  # seconds
+MAX_RETRIES = 3  # Maximum number of retry attempts
+DEFAULT_RETRY_AFTER = 60  # Default retry delay in seconds for rate limiting
+EXPONENTIAL_BACKOFF_BASE = 2  # Base for exponential backoff calculation
+
+# AI Configuration
+AI_MAX_RETRIES = 3  # Maximum retries for AI API calls
+AI_DEFAULT_RETRY_DELAY = 60  # Default retry delay for AI rate limiting
 
 # Custom field mapping definitions (to be implemented)
 CUSTOM_FIELD_MAPPINGS = {}

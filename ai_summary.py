@@ -13,7 +13,13 @@ import logging
 import time
 from typing import Optional
 
-from config import EmailAnalysis, EmailContent
+from config import (
+    AI_DEFAULT_RETRY_DELAY,
+    AI_MAX_RETRIES,
+    EmailAnalysis,
+    EmailContent,
+    EXPONENTIAL_BACKOFF_BASE,
+)
 
 logger = logging.getLogger("clickup_task_creator")
 
@@ -26,7 +32,7 @@ class AIAnalysisError(Exception):
 def analyze_email(
     email_content: EmailContent,
     gemini_api_key: str,
-    max_retries: int = 3
+    max_retries: int = AI_MAX_RETRIES
 ) -> EmailAnalysis:
     """Analyze email content using Google Gemini AI.
     
@@ -87,7 +93,7 @@ def analyze_email(
             # Other errors
             logger.error(f"Gemini analysis failed: {e}")
             if attempt < max_retries - 1:
-                time.sleep(2 ** attempt)  # Exponential backoff
+                time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)  # Exponential backoff
                 continue
             else:
                 logger.warning("Falling back to basic email analysis")
@@ -176,7 +182,7 @@ def _parse_retry_delay(error_msg: str) -> int:
         error_msg: Error message potentially containing retry delay
     
     Returns:
-        Retry delay in seconds (default: 60)
+        Retry delay in seconds (default: AI_DEFAULT_RETRY_DELAY)
     """
     # Try to extract retry delay from error message
     # Example: "Retry after 30 seconds"
@@ -186,7 +192,7 @@ def _parse_retry_delay(error_msg: str) -> int:
     if match:
         return int(match.group(1))
     
-    return 60  # Default retry delay
+    return AI_DEFAULT_RETRY_DELAY  # Default retry delay
 
 
 def _basic_email_analysis(email_content: EmailContent) -> EmailAnalysis:
