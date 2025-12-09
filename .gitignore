@@ -30,12 +30,16 @@ env/
 .virtualenv
 
 # IDE
-.vscode/
 .idea/
+.vscode/extensions.json
+.vscode/*.log
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
+Thumbs.db
 
 # Testing
 .pytest_cache/
@@ -73,5 +77,6 @@ tmp/
 temp/
 *.tmp
 
-# OS
-Thumbs.db
+# Memory MCP Server
+# Note: knowledge-graph.json is intentionally NOT ignored
+# It will be tracked in Git for backup and sync purposes
