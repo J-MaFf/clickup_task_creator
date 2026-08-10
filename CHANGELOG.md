@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - .gitignore for Python project
 - Documentation files (README.md, PLAN.md)
 
+### Changed
+- `claude.yml` now calls the shared reusable Claude workflow in [J-MaFf/.github](https://github.com/J-MaFf/.github) instead of carrying its own copy ([#47](https://github.com/J-MaFf/clickup_task_creator/pull/47))
+
 ## [0.1.0] - 2025-11-18
 
 ### Added
