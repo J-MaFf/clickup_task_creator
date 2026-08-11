@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - `claude.yml` now calls the shared reusable Claude workflow in [J-MaFf/.github](https://github.com/J-MaFf/.github) instead of carrying its own copy ([#47](https://github.com/J-MaFf/clickup_task_creator/pull/47))
 
+### Fixed
+- Fixed `UnboundLocalError` in `ClickUpAPIClient._request()` when a request failed before a response existed (connection errors, SSL failures, too many redirects); these now raise `APIError` as intended ([#60](https://github.com/J-MaFf/clickup_task_creator/pull/60))
+- Fixed retry logic consulting the previous attempt's status code when a later attempt failed at the connection level ([#60](https://github.com/J-MaFf/clickup_task_creator/pull/60))
+
 ## [0.1.0] - 2025-11-18
 
 ### Added
