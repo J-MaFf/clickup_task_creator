@@ -84,8 +84,12 @@ class ClickUpAPIClient:
             RateLimitError: On rate limit exceeded
         """
         url = urljoin(self.base_url, endpoint)
-        
+
         for attempt in range(retries):
+            # Reset per attempt so a failure before the request completes never
+            # inspects the previous attempt's response
+            response = None
+
             try:
                 logger.debug(f"{method} {url} (attempt {attempt + 1}/{retries})")
                 
@@ -121,7 +125,8 @@ class ClickUpAPIClient:
             
             except requests.exceptions.RequestException as e:
                 logger.error(f"Request failed: {e}")
-                if attempt < retries - 1 and response.status_code >= 500:
+                is_server_error = response is not None and response.status_code >= 500
+                if attempt < retries - 1 and is_server_error:
                     time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)
                     continue
                 raise APIError(f"API request failed: {e}")
