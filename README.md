@@ -64,6 +64,12 @@ A powerful, cross-platform Python application for creating ClickUp tasks directl
    pip install -r requirements.txt
    ```
 
+   For development (tests, coverage, formatting, and packaging), install the dev set instead. It includes the runtime dependencies:
+
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
+
 5. **Set up your credentials** (choose one method):
    - Command line: `python main.py --api-key YOUR_CLICKUP_API_KEY --gemini-api-key YOUR_GEMINI_KEY`
    - Environment variables: `export CLICKUP_API_KEY=YOUR_KEY` and `export GEMINI_API_KEY=YOUR_KEY`
@@ -90,7 +96,8 @@ python main.py --workspace "MyWorkspace" --space "MySpace" --list "Tasks"
 
 ## 🔧 Development Workflow
 
-- Install deps via `pip install -r requirements.txt`
+- Install runtime deps via `pip install -r requirements.txt`
+- Install development tools via `pip install -r requirements-dev.txt` (includes the runtime set)
 - Run the creator with `python main.py`
 - Override defaults with CLI flags: `--email-url`, `--api-key`, `--gemini-api-key`, `--workspace`, `--space`, `--list`, `--ai-summary`, `--interactive`
 - Authentication falls back in this order: CLI flag → env var → 1Password SDK → 1Password CLI → manual prompt
@@ -124,7 +131,8 @@ clickup_task_creator/
 ├── mappers.py                 # Email field extraction, custom field builders
 ├── logger_config.py           # Rich-enhanced logging setup
 ├── version.py                 # Version metadata
-├── requirements.txt           # Dependency manifest
+├── requirements.txt           # Pinned runtime dependencies
+├── requirements-dev.txt       # Pinned development dependencies
 ├── PLAN.md                    # Detailed development plan
 ├── CHANGELOG.md               # Version history
 └── tests/                     # Unit and integration tests
@@ -174,18 +182,29 @@ Implementation details:
 
 ## 🛠️ Requirements
 
+Versions are pinned in `requirements.txt` and `requirements-dev.txt`.
+
 ### Core Dependencies
 
-- `requests>=2.25.0` - HTTP client for ClickUp API and email extraction
-- `rich>=14.0.0` - Beautiful console interfaces
-- `google-generativeai>=0.8.0` - Google Gemini AI integration
+- `requests==2.34.2` - HTTP client for the ClickUp API
+- `rich==15.0.0` - Console UI: panels, prompts, tables, and logging
+- `google-generativeai==0.8.6` - Google Gemini SDK for optional email analysis
 
 ### Optional Dependencies
 
-- `onepassword-sdk>=0.3.1` - Secure credential management
-- `google-auth>=2.0.0` - Gmail API authentication
-- `beautifulsoup4>=4.9.0` - Email web scraping fallback
-- `selenium>=4.0.0` - Browser-based email extraction fallback
+- `onepassword-sdk==0.4.1` - Load API keys from 1Password
+- `google-auth==2.62.0` - Gmail API authentication
+- `beautifulsoup4==4.15.0` - HTML parsing fallback for email extraction
+- `selenium==4.51.0` - Browser-based email extraction fallback
+
+### Development Dependencies
+
+Installed from `requirements-dev.txt` (not part of a runtime install):
+
+- `pytest==9.1.1` - Test runner
+- `pytest-cov==7.1.0` - pytest plugin for coverage reports
+- `black==26.10.1` - Code formatter
+- `pyinstaller==6.22.3` - Package the application as a standalone executable
 
 ## 📊 Data Flow
 
@@ -266,6 +285,12 @@ python main.py --log-level DEBUG --log-file debug.log
 ```
 
 ## 🧪 Testing
+
+Install development dependencies (this also installs the runtime set):
+
+```bash
+pip install -r requirements-dev.txt
+```
 
 Run unit tests:
 

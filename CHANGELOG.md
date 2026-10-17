@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation files (README.md, PLAN.md)
 
 ### Changed
+- Split development dependencies into `requirements-dev.txt` and pinned every direct dependency for reproducible installs ([#56](https://github.com/J-MaFf/clickup_task_creator/issues/56))
 - `claude.yml` now calls the shared reusable Claude workflow in [J-MaFf/.github](https://github.com/J-MaFf/.github) instead of carrying its own copy ([#47](https://github.com/J-MaFf/clickup_task_creator/pull/47))
 
 ### Fixed

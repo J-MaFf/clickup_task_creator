@@ -1,0 +1,11 @@
+# Development dependencies. Not installed by a runtime `requirements.txt` install.
+# Also installs the pinned runtime dependencies.
+#
+#   pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+pytest==9.1.1        # Test runner
+pytest-cov==7.1.0    # pytest plugin for coverage reports
+black==26.10.1       # Code formatter
+pyinstaller==6.22.3  # Package the application as a standalone executable
