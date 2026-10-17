@@ -116,12 +116,12 @@ class ClickUpAPIClient:
                 
                 return response.json() if response.content else {}
                 
-            except requests.exceptions.Timeout:
+            except requests.exceptions.Timeout as e:
                 logger.warning(f"Request timeout (attempt {attempt + 1}/{retries})")
                 if attempt < retries - 1:
                     time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)  # Exponential backoff
                     continue
-                raise APIError(f"Request timeout after {retries} attempts")
+                raise APIError(f"Request timeout after {retries} attempts") from e
             
             except requests.exceptions.RequestException as e:
                 logger.error(f"Request failed: {e}")
@@ -129,7 +129,7 @@ class ClickUpAPIClient:
                 if attempt < retries - 1 and is_server_error:
                     time.sleep(EXPONENTIAL_BACKOFF_BASE ** attempt)
                     continue
-                raise APIError(f"API request failed: {e}")
+                raise APIError(f"API request failed: {e}") from e
         
         raise APIError(f"Request failed after {retries} attempts")
     

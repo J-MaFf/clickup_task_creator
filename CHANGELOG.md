@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `claude.yml` now calls the shared reusable Claude workflow in [J-MaFf/.github](https://github.com/J-MaFf/.github) instead of carrying its own copy ([#47](https://github.com/J-MaFf/clickup_task_creator/pull/47))
 
 ### Fixed
+- Preserved exception chains when re-raising `APIError` and `AIAnalysisError` from caught `requests` and JSON errors, so the original failure stays on `__cause__` ([#61](https://github.com/J-MaFf/clickup_task_creator/issues/61))
 - Fixed `UnboundLocalError` in `ClickUpAPIClient._request()` when a request failed before a response existed (connection errors, SSL failures, too many redirects); these now raise `APIError` as intended ([#60](https://github.com/J-MaFf/clickup_task_creator/pull/60))
 - Fixed retry logic consulting the previous attempt's status code when a later attempt failed at the connection level ([#60](https://github.com/J-MaFf/clickup_task_creator/pull/60))
 
