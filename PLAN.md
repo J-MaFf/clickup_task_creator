@@ -77,7 +77,8 @@ clickup_task_creator/
 ├── mappers.py                 # Email field mappers, custom field builders
 ├── logger_config.py           # Rich-enhanced logging setup
 ├── version.py                 # Version info (__version__, __description__)
-├── requirements.txt           # Dependency manifest
+├── requirements.txt           # Pinned runtime dependencies
+├── requirements-dev.txt       # Pinned development dependencies
 ├── tests/                     # Unit & integration tests
 │   ├── test_config.py
 │   ├── test_auth.py
@@ -349,24 +350,27 @@ Return as JSON with keys: title, description, priority, due_date, key_points
 
 ## Dependencies
 
+Runtime packages are pinned in `requirements.txt`. Development packages are pinned in `requirements-dev.txt`, which also installs the runtime set.
+
 ### Core
 
-- `requests>=2.25.0` - HTTP requests
-- `rich>=14.0.0` - Beautiful CLI
-- `google-generativeai>=0.8.0` - Gemini API
+- `requests==2.34.2` - HTTP client for the ClickUp API
+- `rich==15.0.0` - Console UI: panels, prompts, tables, and logging
+- `google-generativeai==0.8.6` - Google Gemini SDK for optional email analysis
 
 ### Optional
 
-- `onepassword-sdk>=0.3.1` - Secure credentials
-- `google-auth>=2.0.0` - Gmail API auth
-- `beautifulsoup4>=4.9.0` - Email web scraping fallback
-- `selenium>=4.0.0` - Browser-based email extraction fallback
+- `onepassword-sdk==0.4.1` - Load API keys from 1Password
+- `google-auth==2.62.0` - Gmail API authentication
+- `beautifulsoup4==4.15.0` - HTML parsing fallback for email extraction
+- `selenium==4.51.0` - Browser-based email extraction fallback
 
 ### Development
 
-- `pytest>=7.0.0` - Testing
-- `pytest-cov>=4.0.0` - Coverage
-- `black>=22.0.0` - Code formatting
+- `pytest==9.1.1` - Test runner
+- `pytest-cov==7.1.0` - pytest plugin for coverage reports
+- `black==26.10.1` - Code formatter
+- `pyinstaller==6.22.3` - Package the application as a standalone executable
 
 ## Testing Strategy
 

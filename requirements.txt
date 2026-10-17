@@ -1,16 +1,15 @@
-# Core Dependencies
-requests>=2.25.0
-rich>=14.0.0
-google-generativeai>=0.8.0
+# Runtime dependencies. Versions are pinned to the set that currently
+# resolves from the previous ranges.
+#
+#   pip install -r requirements.txt
 
-# Optional Dependencies
-onepassword-sdk>=0.3.1
-google-auth>=2.0.0
-beautifulsoup4>=4.9.0
-selenium>=4.0.0
+# Core — required to run the application
+requests==2.34.2            # HTTP client for the ClickUp API
+rich==15.0.0                # Console UI: panels, prompts, tables, and logging
+google-generativeai==0.8.6  # Google Gemini SDK for optional email analysis
 
-# Development Dependencies
-pytest>=7.0.0
-pytest-cov>=4.0.0
-black>=22.0.0
-pyinstaller>=6.16.0
+# Optional — extra integrations; not required for the core ClickUp workflow
+onepassword-sdk==0.4.1      # Load API keys from 1Password
+google-auth==2.62.0         # Gmail API authentication
+beautifulsoup4==4.15.0      # HTML parsing fallback for email extraction
+selenium==4.51.0            # Browser-based email extraction fallback
