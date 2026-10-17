@@ -172,7 +172,7 @@ def _parse_gemini_response(response_text: str) -> EmailAnalysis:
         )
     except (json.JSONDecodeError, KeyError) as e:
         logger.error(f"Failed to parse Gemini response: {e}")
-        raise AIAnalysisError(f"Invalid response format: {e}")
+        raise AIAnalysisError(f"Invalid response format: {e}") from e
 
 
 def _parse_retry_delay(error_msg: str) -> int:

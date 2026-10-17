@@ -58,6 +58,21 @@ def test_connection_error_raises_api_error(mock_request, mock_sleep):
 
 @patch("api_client.time.sleep")
 @patch("api_client.requests.Session.request")
+def test_connection_error_preserves_exception_chain(mock_request, mock_sleep):
+    """Test that APIError keeps the original RequestException as __cause__."""
+    original = requests.exceptions.ConnectionError("no route to host")
+    mock_request.side_effect = original
+
+    client = ClickUpAPIClient(api_key="test_key")
+
+    with pytest.raises(APIError, match="API request failed") as exc_info:
+        client.get("/team")
+
+    assert exc_info.value.__cause__ is original
+
+
+@patch("api_client.time.sleep")
+@patch("api_client.requests.Session.request")
 def test_connection_error_after_server_error_does_not_reuse_response(mock_request, mock_sleep):
     """Test that a connection error does not retry based on a prior attempt's status."""
     server_error = Mock()
