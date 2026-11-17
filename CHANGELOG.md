@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Adopted beads (bd) for AI task tracking: Dolt-only sync, CLAUDE.md/AGENTS.md guidance, `bd prime` hooks ([#64](https://github.com/J-MaFf/clickup_task_creator/pull/64))
 - Initial project structure setup
 - Core module placeholders (main.py, config.py, auth.py, etc.)
 - Test suite foundation
